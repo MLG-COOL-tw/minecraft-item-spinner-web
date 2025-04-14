@@ -1,6 +1,7 @@
 # hello 這是我考網管的作業
 ## 使用的packages:
 * pip install flask
+* pip install react
 
 ## 如何開啟：
 * 跑那一個main.py檔案
