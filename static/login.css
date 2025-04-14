@@ -1,0 +1,42 @@
+#box1 {
+    background-color: #273643;
+    border-color:cornflowerblue;
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    height: 100%;
+    margin: 0px;
+}
+
+#login {
+    background-color: #5865F2;
+    border-color:cornflowerblue;
+
+    margin: 0;
+    position: absolute;
+    top: 40%;
+    transform: translateY(-40%);
+    left: 50%;
+    transform: translateX(-50%);
+
+    height: 150px;
+    width: 750px;
+    line-height: 50px;
+    font-size: 60px;
+    font-family: "Arial";
+    border-radius: 30px;
+}
+
+#headtext {
+    margin: 0;
+    position: absolute;
+    top: 20%;
+    transform: translateY(-20%);
+    left: 50%;
+    transform: translateX(-50%);
+
+    line-height: 50px;
+    font-size: 75px;
+    font-family: "Arial";
+}

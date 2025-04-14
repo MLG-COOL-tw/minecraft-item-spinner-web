@@ -1,6 +1,19 @@
-body {
-    background-color: antiquewhite;
+#box1 {
+    background-color: #273643;
+    border-color:cornflowerblue;
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    height: 10%;
+    margin: 0px;
 }
-#hello {
-    color: peru
+#box2 {
+    background-color: #f8f7de;
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 10%;
+    height: 90%;
+    margin: 0px;
 }

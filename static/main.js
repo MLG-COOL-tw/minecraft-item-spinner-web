@@ -1,1 +1,1 @@
-alert("Page Loaded");
+import React from 'react';
