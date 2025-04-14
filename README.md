@@ -1,7 +1,6 @@
 # hello 這是我考網管的作業
 ## 使用的packages:
 * pip install flask
-  (有用到jinja)
 * pip install react
 
 ## 如何開啟：
