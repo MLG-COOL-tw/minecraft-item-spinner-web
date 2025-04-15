@@ -6,7 +6,7 @@
 
 ## 如何開啟：
 * 跑那一個main.py檔案
-* python main.py
+* 到 127.0.0.1:8080/login
 
 ## 網站有的東西：
 * discord 第三方登入登出
