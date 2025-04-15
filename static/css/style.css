@@ -43,3 +43,32 @@
     max-width:100%;
     font-family: "Arial";
 }
+
+#logout {
+    background-color: #5865F2;
+    color:#36393E;
+
+    border: 0;
+
+    margin: 0;
+    position: absolute;
+    right: 0;
+    transform: translateX(0);
+    text-align: center;
+
+    max-width: 3.5em;
+    min-width: 3.5em;
+    z-index: 200;
+    font-size: 60px;
+    font-family: "Arial";
+    border-radius: 50px;
+    margin-top:15px;
+
+    opacity: 1;
+    transition: 0.2s;
+}
+  
+#logout:hover {
+    background-color: #8691f5;
+    opacity: 0.8;
+}
