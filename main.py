@@ -16,7 +16,11 @@ def login():
 
 @app.route("/main", methods=['GET'])
 def main():
-    return render_template("index.html")
+    if request.args:
+        code = request.args.get('code')
+        return render_template("index.html")
+    else:
+        return redirect(url_for("login"))
 
 if __name__ == '__main__':
     app.run(debug=True, port=8080)
