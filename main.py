@@ -1,12 +1,20 @@
-from flask import Flask, render_template, request, session, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for
+from dotenv import load_dotenv
+load_dotenv()
+import os
 
 app = Flask(__name__)
 
-@app.route("/login")
-def login():
-    return render_template("login.html")
+login_site = os.getenv("login_site")
 
-@app.route("/main")
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+    if (request.method == 'POST'):
+        return redirect(login_site)
+    else:
+        return render_template("login.html")
+
+@app.route("/main", methods=['GET'])
 def main():
     return render_template("index.html")
 

@@ -1,17 +1,18 @@
-#box1 {
+body {
+    margin: 0;
     background-color: #273643;
-    border-color:cornflowerblue;
-    position: absolute;
-    left: 0px;
-    right: 0px;
-    top: 0px;
-    height: 100%;
-    margin: 0px;
+    background-image:
+      radial-gradient(circle, rgba(128, 128, 128, 0.13) 2px, transparent 2px),
+      linear-gradient(0deg, rgba(128, 128, 128, 0.13) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(128, 128, 128, 0.13) 1px, transparent 1px);
+    background-size: 40px 40px;
 }
 
 #login {
     background-color: #5865F2;
-    border-color:cornflowerblue;
+    color:#36393E;
+
+    border: 0;
 
     margin: 0;
     position: absolute;
@@ -24,9 +25,17 @@
     width: 750px;
     font-size: 60px;
     font-family: "Arial";
-    border-radius: 30px;
+    border-radius: 50px;
     margin-top:15px;
     min-width: 300px;
+
+    opacity: 1;
+    transition: 0.2s;
+}
+  
+#login:hover {
+    background-color: #8691f5;
+    opacity: 0.8;
 }
 
 #headtext {

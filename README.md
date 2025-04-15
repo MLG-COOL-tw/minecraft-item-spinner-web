@@ -2,6 +2,7 @@
 ## 使用的packages:
 * pip install flask
 * pip install react
+* pip install python-dotenv
 
 ## 如何開啟：
 * 跑那一個main.py檔案
