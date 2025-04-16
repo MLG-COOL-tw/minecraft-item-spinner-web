@@ -7,6 +7,8 @@
     top: 0px;
     height: 7em;
     margin: 0px;
+
+    z-index: 100;
 }
 #box2 {
     background-color: #f8f7de;
@@ -14,8 +16,10 @@
     left: 0px;
     right: 0px;
     top: 7em;
-    height: 200%;
+    height: 100%;
     margin: 0px;
+
+    z-index: 0;
 }
 
 #avatar {
@@ -70,5 +74,36 @@
   
 #logout:hover {
     background-color: #8691f5;
+    opacity: 0.8;
+}
+
+#closed{
+    background-color: #64d8fe;
+    color:#3b3e36;
+
+    border: 0;
+
+    margin: 0;
+    position: absolute;
+    top: 35%;
+    transform: translateY(-20%);
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+
+    height: 150px;
+    width: 750px;
+    font-size: 60px;
+    font-family: "Arial";
+    border-radius: 50px;
+    margin-top:15px;
+    min-width: 300px;
+
+    opacity: 1;
+    transition: 0.2s;
+}
+  
+#closed:hover {
+    background-color: #bafcff;
     opacity: 0.8;
 }
