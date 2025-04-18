@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, session, redirect, url_for
 import requests
 import random
 from dotenv import load_dotenv
@@ -6,12 +6,13 @@ load_dotenv()
 import os
 
 app = Flask(__name__)
+app.config["SECRET_KEY"] = os.getenv("secret_key")
 
 auth_url = os.getenv("auth_url")
 api_url = os.getenv("api_url")
 client_id = os.getenv("client_id")
 public_key = os.getenv("public_key")
-secret_key = os.getenv("secret_key")
+client_secret = os.getenv("client_secret")
 
 redir = "http://127.0.0.1:8080/main"
 API_ENDPOINT = 'https://discord.com/api/v10'
@@ -20,6 +21,9 @@ API_ENDPOINT = 'https://discord.com/api/v10'
 def login():
     #login page
     #post request for the button
+    session["username"] = ""
+    session["userid"] = ""
+    session["useravatar"] = ""
     if (request.method == 'POST'):
         return redirect(auth_url)
     else:
@@ -29,9 +33,64 @@ def login():
 @app.route("/main", methods=['GET', 'POST'])
 def main():
     if request.method == 'POST':
-        #selects random item and random enchantment for the item
-        #sends it back to html with jinja
+        return redirect(url_for("roll"))
 
+    elif request.args:
+        if session["username"] != "":
+            #if already gotten the user, then check session for user
+            return render_template("index.html", username=session["username"], userid=session["userid"], useravatar=session["useravatar"])
+        else:
+            #gets the code from the auth link
+            #gets the username, id, avatar from discord api
+            code = request.args.get('code')
+            user = exchange_code(code)
+
+            username = user['username']
+            userid = user['id']
+            useravatar = user['avatar']
+            session["username"] = username
+            session["userid"] = userid
+            session["useravatar"] = useravatar
+
+            return render_template("index.html", username = username, userid = userid, useravatar = useravatar)
+        
+    else:
+        #if there is no code then make them relogin
+        return redirect(url_for("login"))
+
+def exchange_code(code):
+    # gets the access_token
+
+    data = {
+        'grant_type': 'authorization_code',
+        'code': code,
+        'redirect_uri': redir
+    }
+    headers = {
+        'Content-Type': 'application/x-www-form-urlencoded'
+    }
+
+    r = requests.post('%s/oauth2/token' % API_ENDPOINT, data=data, headers=headers, auth=(client_id, client_secret))
+    r.raise_for_status()
+    return get_user_data(r.json()['access_token'])
+
+def get_user_data(accessToken):
+    # gets the user id from the access_token
+
+    headers = {
+        "Authorization": f"Bearer {accessToken}"
+    }
+
+    r = requests.get(url=api_url, headers=headers)
+    r.raise_for_status()
+    return r.json()
+
+
+@app.route("/roll", methods=['GET', 'POST'])
+def roll():
+    if (request.method == 'POST'):
+        return redirect("main")
+    else:
         #all the items
         items = [["iron_sword", "diamond_sword", "netherite_sword"],
                  ["iron_axe", "diamond_axe", "netherite_axe"],
@@ -45,7 +104,9 @@ def main():
         #randomly picks one item
         pick_item = random.randint(0, len(items)-1)
         pick_item_type = random.randint(0, len(items[pick_item])-1)
-        enchantments = {"item":items[pick_item][pick_item_type]}
+        item = items[pick_item][pick_item_type]
+        enchantments = {}
+        enchant = []
 
         #randomly chooses the level of the enchantment
         enchantments["mending"] = random.randint(0, 1)
@@ -89,54 +150,16 @@ def main():
             enchantments["density"] = random.randint(0, 5)
             enchantments["wind_burst"] = random.randint(0, 3)
 
-        return enchantments
-
-    elif request.args:
-        #gets the code from the auth link
-        #gets the username, id, avatar from discord api
-        code = request.args.get('code')
-        user = exchange_code(code)
-
-        username = user['username']
-        userid = user['id']
-        useravatar = user['avatar']
-
-        return render_template("index.html", username = username, userid = userid, useravatar = useravatar)
-    else:
-        #if there is no code then make them relogin
-        return redirect(url_for("login"))
-
-def exchange_code(code):
-    # gets the access_token
-
-    data = {
-        'grant_type': 'authorization_code',
-        'code': code,
-        'redirect_uri': redir
-    }
-    headers = {
-        'Content-Type': 'application/x-www-form-urlencoded'
-    }
-
-    r = requests.post('%s/oauth2/token' % API_ENDPOINT, data=data, headers=headers, auth=(client_id, secret_key))
-    r.raise_for_status()
-    return get_user_data(r.json()['access_token'])
-
-def get_user_data(accessToken):
-    # gets the user id from the access_token
-
-    headers = {
-        "Authorization": f"Bearer {accessToken}"
-    }
-
-    r = requests.get(url=api_url, headers=headers)
-    r.raise_for_status()
-    return r.json()
+        for key, value in enchantments.items():
+            if value != 0:
+                enchant.append(key)
+        
+        return render_template("roll.html", item=item, enchant=enchant, enchantments=enchantments)
 
 
 @app.errorhandler(500)
 def internal_server_error(error):
-    #relogin (cus the discord access token has a timer for some reason)
+    #relogin (cus the discord access token has an expire timer for some reason)
     return redirect(url_for("login"))
 
 
