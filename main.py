@@ -17,24 +17,25 @@ redir = "http://127.0.0.1:8080/"
 auth_url = f"https://discord.com/oauth2/authorize?client_id={client_id}&response_type=code&redirect_uri={redir}&scope=identify"
 api_url = "https://discordapp.com/api/users/@me"
 
+
 @app.route("/", methods=['GET', 'POST'])
 def main():
-    if session["login"] == False:
+    if not session.get("login"):
         #if haven't logged in
-        if session["username"] != "":
+        if session.get("username"):
             session["username"] = ""
             session["userid"] = ""
             session["useravatar"] = ""
 
         #post request for the button
-        if (request.method == 'POST'):
+        if request.method == 'POST':
             #logged in
             session["login"] = True
             
             return redirect(auth_url)
         else:
             return render_template("login.html")
-    elif session["login"] == True:
+    elif session.get("login"):
         #if logged in
         if request.method == 'POST':
             #logout btn
@@ -43,26 +44,20 @@ def main():
                 return redirect(redir)
             #roll btn
             elif request.form["btn"] == "roll":
-                return redirect(url_for("roll"))
-        
-        elif session["username"] != "":
-            #if already gotten the user, then check session for user
-            return render_template("index.html", username=session["username"], userid=session["userid"], useravatar=session["useravatar"])
+                return redirect(url_for("roll")) 
 
-        elif request.args:
+        if request.args:
             #gets the code from the auth link
             #gets the username, id, avatar from discord api
             code = request.args.get('code')
             user = exchange_code(code)
 
-            username = user['username']
-            userid = user['id']
-            useravatar = user['avatar']
-            session["username"] = username
-            session["userid"] = userid
-            session["useravatar"] = useravatar
-
-            return render_template("index.html", username = username, userid = userid, useravatar = useravatar)
+            session["username"] = user['username']
+            session["userid"] = user['id']
+            session["useravatar"] = user['avatar']
+        
+        #renders index.html with the session
+        return render_template("index.html", username=session["username"], userid=session["userid"], useravatar=session["useravatar"])
 
 def exchange_code(code):
     # gets the access_token
@@ -94,7 +89,10 @@ def get_user_data(accessToken):
 
 @app.route("/roll", methods=['GET', 'POST'])
 def roll():
-    if request.method == 'POST' or session["username"] == "":
+    if request.method == 'POST' or not session.get("login"):
+        #if is post request: go back to main page
+        #if login=false: go back to login page
+        #both are on the same url
         return redirect(redir)
     else:
         #all the items
