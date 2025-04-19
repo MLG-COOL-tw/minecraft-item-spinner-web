@@ -107,8 +107,8 @@ body {
 
 #spinning {
     position: absolute;
-    top: -40%;
-    transform: translateY(40%);
+    top: -60%;
+    transform: translateY(60%);
     left: 50%;
     transform: translateX(-50%);
     width: 500px;
@@ -119,52 +119,62 @@ body {
 }
 
 .spin {
-    width: 100%;
+    width: 150em;
     margin: 10px;
     border-radius: 10px;
     text-align: center;
     transition: transform 0.2s ease;
 
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 30%;
+    transform: translateY(-30%);
+    left: 50%;
+    transform: translateX(-50%);
 }
   
 #box1 {
     animation: pickCard 1s infinite;
     animation-delay: 0.25s;
-    scale: 0.8;
+    width: 20rem;
+    height: 20rem;
+    padding: 5rem;
    
     transition: 0.2s ease;
 }
-#box1:hover{scale:1;}
+#box1:hover{scale:1.2;}
   
 #box2 {
     animation: pickCard 1s infinite;
     animation-delay: 0.5s;
-    scale: 0.8;
+    width: 20rem;
+    height: 20rem;
+    padding: 5rem;
 
     transition: 0.2s ease;
 }
-#box2:hover{scale:1;}
+#box2:hover{scale:1.2;}
   
 #box3 {
     animation: pickCard 1s infinite;
     animation-delay: 0.75s;
-    scale: 0.8;
+    width: 20rem;
+    height: 20rem;
+    padding: 5rem;
 
     transition: 0.2s ease;
 }
-#box3:hover{scale:1;}
+#box3:hover{scale:1.2;}
   
 #box4 {
     animation: pickCard 1s infinite;
     animation-delay: 1s;
-    scale: 0.8;
+    width: 20rem;
+    height: 20rem;
+    padding: 5rem;
 
     transition: 0.2s ease;
 }
-#box4:hover{scale:1;}
+#box4:hover{scale:1.2;}
   
 @keyframes pickCard {
     0% {

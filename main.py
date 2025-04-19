@@ -1,3 +1,5 @@
+#TODO: change roll's api stuff
+
 from flask import Flask, render_template, request, session, redirect, url_for
 import requests
 import random
@@ -8,41 +10,46 @@ import os
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.getenv("secret_key")
 
-auth_url = os.getenv("auth_url")
-api_url = os.getenv("api_url")
-client_id = os.getenv("client_id")
-public_key = os.getenv("public_key")
 client_secret = os.getenv("client_secret")
-
+client_id = "1361369448279183532"
 API_ENDPOINT = "https://discord.com/api/v10"
-redir = "http://127.0.0.1:8080/main"
+redir = "http://127.0.0.1:8080/"
+auth_url = f"https://discord.com/oauth2/authorize?client_id={client_id}&response_type=code&redirect_uri={redir}&scope=identify"
+api_url = "https://discordapp.com/api/users/@me"
 
-@app.route("/login", methods=['GET', 'POST'])
-def login():
-    #login page
-    
-    #reset session
-    session["username"] = ""
-    session["userid"] = ""
-    session["useravatar"] = ""
-
-    #post request for the button
-    if (request.method == 'POST'):
-        return redirect(auth_url)
-    else:
-        return render_template("login.html")
-
-
-@app.route("/main", methods=['GET', 'POST'])
+@app.route("/", methods=['GET', 'POST'])
 def main():
-    if request.method == 'POST':
-        return redirect(url_for("roll"))
-
-    elif request.args:
+    if session["login"] == False:
+        #if haven't logged in
         if session["username"] != "":
+            session["username"] = ""
+            session["userid"] = ""
+            session["useravatar"] = ""
+
+        #post request for the button
+        if (request.method == 'POST'):
+            #logged in
+            session["login"] = True
+            
+            return redirect(auth_url)
+        else:
+            return render_template("login.html")
+    elif session["login"] == True:
+        #if logged in
+        if request.method == 'POST':
+            #logout btn
+            if request.form["btn"] == "logout":
+                session["login"] = False;
+                return redirect(redir)
+            #roll btn
+            elif request.form["btn"] == "roll":
+                return redirect(url_for("roll"))
+        
+        elif session["username"] != "":
             #if already gotten the user, then check session for user
             return render_template("index.html", username=session["username"], userid=session["userid"], useravatar=session["useravatar"])
-        else:
+
+        elif request.args:
             #gets the code from the auth link
             #gets the username, id, avatar from discord api
             code = request.args.get('code')
@@ -56,15 +63,6 @@ def main():
             session["useravatar"] = useravatar
 
             return render_template("index.html", username = username, userid = userid, useravatar = useravatar)
-        
-    else:
-        #if there is session then use the session
-        if session["username"] != "":
-            return render_template("index.html", username=session["username"], userid=session["userid"], useravatar=session["useravatar"])
-        
-        #if there is no code and not session then make them relogin
-        else:
-            return redirect(url_for("login"))
 
 def exchange_code(code):
     # gets the access_token
@@ -78,7 +76,7 @@ def exchange_code(code):
         'Content-Type': 'application/x-www-form-urlencoded'
     }
 
-    r = requests.post('%s/oauth2/token' % API_ENDPOINT, data=data, headers=headers, auth=(client_id, client_secret))
+    r = requests.post(f'{API_ENDPOINT}/oauth2/token', data=data, headers=headers, auth=(client_id, client_secret))
     r.raise_for_status()
     return get_user_data(r.json()['access_token'])
 
@@ -96,8 +94,8 @@ def get_user_data(accessToken):
 
 @app.route("/roll", methods=['GET', 'POST'])
 def roll():
-    if (request.method == 'POST'):
-        return redirect(url_for("main"))
+    if request.method == 'POST' or session["username"] == "":
+        return redirect(redir)
     else:
         #all the items
         items = [["iron_sword", "diamond_sword", "netherite_sword"],
@@ -112,7 +110,6 @@ def roll():
         #randomly picks one item
         pick_item = random.randint(0, len(items)-1)
         pick_item_type = random.randint(0, len(items[pick_item])-1)
-        item = items[pick_item][pick_item_type]
         enchantments = {}
         enchant = []
 
@@ -162,13 +159,7 @@ def roll():
             if value != 0:
                 enchant.append(key)
         
-        return render_template("roll.html", pick_item=pick_item, pick_item_type=pick_item_type, item=item, enchant=enchant, enchantments=enchantments)
-
-
-@app.errorhandler(500)
-def internal_server_error(error):
-    #relogin (cus the discord access token has an expire timer for some reason)
-    return redirect(url_for("login"))
+        return render_template("roll.html", pick_item=pick_item, pick_item_type=pick_item_type, enchant=enchant, enchantments=enchantments)
 
 
 if __name__ == '__main__':

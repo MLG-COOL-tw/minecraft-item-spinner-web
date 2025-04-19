@@ -5,7 +5,7 @@
     left: 0px;
     right: 0px;
     top: 0px;
-    height: 7em;
+    height: 7rem;
     margin: 0px;
 
     z-index: 100;
@@ -16,7 +16,7 @@
     position: absolute;
     left: 0px;
     right: 0px;
-    top: 7em;
+    top: 7rem;
     height: 100%;
     margin: 0px;
 
@@ -35,12 +35,14 @@
 #username {
     margin: 0;
     position: absolute;
-    top: 15%;
-    transform: translateY(-15%);
+    top: 0;
+    transform: translateY(0);
+    left: 50%;
+    transform: translateX(-50%);
     text-align: center;
 
-    font-size: 5em;
-    width: 100%;
+    font-size: 450%;
+    width: 50%;
     height: 100%;
     overflow: hidden;
     
@@ -57,14 +59,16 @@
 
     margin: 0;
     position: absolute;
-    right: 0;
-    transform: translateX(0);
+    right: 2%;
+    transform: translateX(-2%);
+    top: 4%;
+    transform: translateY(4%);
     text-align: center;
 
     max-width: 3.5em;
     min-width: 3.5em;
     z-index: 200;
-    font-size: 60px;
+    font-size: 40px;
     font-family: "Arial";
     border-radius: 50px;
     margin-top:15px;
@@ -76,7 +80,7 @@
 #logout:hover {
     background-color: #8691f5;
     opacity: 0.8;
-    scale: 1.1
+    scale: 1.2;
 }
 
 .roll {
@@ -108,7 +112,7 @@
 }
   
 #closed:hover {
-    background-color: #85ced2;
+    background-color: #9af1f5;
     opacity: 0.8;
     scale: 1.2;
 }
