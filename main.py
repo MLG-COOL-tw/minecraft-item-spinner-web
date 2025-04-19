@@ -14,8 +14,8 @@ client_id = os.getenv("client_id")
 public_key = os.getenv("public_key")
 client_secret = os.getenv("client_secret")
 
+API_ENDPOINT = "https://discord.com/api/v10"
 redir = "http://127.0.0.1:8080/main"
-API_ENDPOINT = 'https://discord.com/api/v10'
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
