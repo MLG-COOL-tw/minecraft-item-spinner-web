@@ -8,19 +8,21 @@ body {
     background-size: 40px 40px;
 }
 
-#login {
-    background-color: #5865F2;
-    color:#36393E;
-
-    border: 0;
-
+.login {
     margin: 0;
     position: absolute;
     top: 60%;
     transform: translateY(-60%);
     left: 50%;
     transform: translateX(-50%);
+}
 
+#btn {
+    background-color: #5865F2;
+    color:#36393E;
+
+    border: 0;
+    margin: 0;
     height: 150px;
     width: 750px;
     font-size: 60px;
@@ -30,12 +32,13 @@ body {
     min-width: 300px;
 
     opacity: 1;
-    transition: 0.2s;
+    transition: 0.2s ease;
 }
   
-#login:hover {
+#btn:hover {
     background-color: #8691f5;
     opacity: 0.8;
+    scale: 1.2;
 }
 
 #headtext {

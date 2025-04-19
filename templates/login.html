@@ -7,9 +7,11 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
 </head> 
 <body>
-    <div><h1 id="headtext" style="color: chocolate">hi 在抽卡前請先登入discord!!!</h1></div>
+    <div><h1 id="headtext" style="color: chocolate">在抽物品前請先登入discord!!!</h1></div>
     <form method="post">
-        <button type="submit" id="login">Login with Discord</button>
+        <div class="login">
+            <button type="submit" id="btn">登入 Discord</button>
+        </div>
     </form>
 </body> 
 </html>

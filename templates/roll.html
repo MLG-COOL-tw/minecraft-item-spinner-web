@@ -5,9 +5,91 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minecraft Item Spinner</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/roll.css') }}">
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/roll.js') }}"></script>
 </head> 
 <body> 
-    
+    <div class="pick_item">
+        <h1 id="get"> 你獲得以下物品！<br>(看看你拿到什麼附魔) </h1>
+        {% if pick_item == 0 %}
+            {% if pick_item_type == 0 %}
+                <img src="{{ url_for('static', filename='images/iron_sword.png') }}" id="item" onmouseover="showenchants()" onmouseleave="showenchants()">
+            {% elif pick_item_type == 1 %}
+                <img src="{{ url_for('static', filename='images/diamond_sword.png') }}" id="item" onmouseover="showenchants()" onmouseleave="showenchants()">
+            {% elif pick_item_type == 2 %}
+                <img src="{{ url_for('static', filename='images/netherite_sword.png') }}" id="item" onmouseover="showenchants()" onmouseleave="showenchants()">
+            {% endif %}
+        {% elif pick_item == 1 %}
+            {% if pick_item_type == 0 %}
+                <img src="{{ url_for('static', filename='images/iron_axe.png') }}" id="item" onmouseover="showenchants()" onmouseleave="showenchants()">
+            {% elif pick_item_type == 1 %}
+                <img src="{{ url_for('static', filename='images/diamond_axe.png') }}" id="item" onmouseover="showenchants()" onmouseleave="showenchants()">
+            {% elif pick_item_type == 2 %}
+                <img src="{{ url_for('static', filename='images/netherite_axe.png') }}" id="item" onmouseover="showenchants()" onmouseleave="showenchants()">
+            {% endif %}
+        {% elif pick_item == 2 %}
+            {% if pick_item_type == 0 %}
+                <img src="{{ url_for('static', filename='images/iron_pickaxe.png') }}" id="item" onmouseover="showenchants()" onmouseleave="showenchants()">
+            {% elif pick_item_type == 1 %}
+                <img src="{{ url_for('static', filename='images/diamond_pickaxe.png') }}" id="item" onmouseover="showenchants()" onmouseleave="showenchants()">
+            {% elif pick_item_type == 2 %}
+                <img src="{{ url_for('static', filename='images/netherite_pickaxe.png') }}" id="item" onmouseover="showenchants()" onmouseleave="showenchants()">
+            {% endif %}
+        {% elif pick_item == 3 %}
+            {% if pick_item_type == 0 %}
+                <img src="{{ url_for('static', filename='images/iron_helmet.png') }}" id="item" onmouseover="showenchants()" onmouseleave="showenchants()">
+            {% elif pick_item_type == 1 %}
+                <img src="{{ url_for('static', filename='images/diamond_helmet.png') }}" id="item" onmouseover="showenchants()" onmouseleave="showenchants()">
+            {% elif pick_item_type == 2 %}
+                <img src="{{ url_for('static', filename='images/netherite_helmet.png') }}" id="item" onmouseover="showenchants()" onmouseleave="showenchants()">
+            {% endif %}
+        {% elif pick_item == 4 %}
+            {% if pick_item_type == 0 %}
+                <img src="{{ url_for('static', filename='images/iron_chestplate.png') }}" id="item" onmouseover="showenchants()" onmouseleave="showenchants()">
+            {% elif pick_item_type == 1 %}
+                <img src="{{ url_for('static', filename='images/diamond_chestplate.png') }}" id="item" onmouseover="showenchants()" onmouseleave="showenchants()">
+            {% elif pick_item_type == 2 %}
+                <img src="{{ url_for    ('static', filename='images/netherite_chestplate.png') }}" id="item" onmouseover="showenchants()" onmouseleave="showenchants()">
+            {% endif %}
+         {% elif pick_item == 5 %}
+            {% if pick_item_type == 0 %}
+                <img src="{{ url_for('static', filename='images/iron_leggings.png') }}" id="item" onmouseover="showenchants()" onmouseleave="showenchants()">
+            {% elif pick_item_type == 1 %}
+                <img src="{{ url_for('static', filename='images/diamond_leggings.png') }}" id="item" onmouseover="showenchants()" onmouseleave="showenchants()">
+            {% elif pick_item_type == 2 %}
+                <img src="{{ url_for('static', filename='images/netherite_leggings.png') }}" id="item" onmouseover="showenchants()" onmouseleave="showenchants()">
+            {% endif %}
+        {% elif pick_item == 6 %}
+            {% if pick_item_type == 0 %}
+                <img src="{{ url_for('static', filename='images/iron_boots.png') }}" id="item" onmouseover="showenchants()" onmouseleave="showenchants()">
+            {% elif pick_item_type == 1 %}
+                <img src="{{ url_for('static', filename='images/diamond_boots.png') }}" id="item" onmouseover="showenchants()" onmouseleave="showenchants()">
+            {% elif pick_item_type == 2 %}
+                <img src="{{ url_for('static', filename='images/netherite_boots.png') }}" id="item" onmouseover="showenchants()" onmouseleave="showenchants()">
+            {% endif %}
+        {% elif pick_item == 7 %}
+            <img src="{{ url_for('static', filename='images/bow.png') }}" id="item" onmouseover="showenchants()" onmouseleave="showenchants()">
+        {% elif pick_item == 8 %}
+            <img src="{{ url_for('static', filename='images/mace.png') }}" id="item" onmouseover="showenchants()" onmouseleave="showenchants()">
+        {% endif %}
+        
+        <div id="enchants" style="display: none">
+            {% for enchants in enchant %}
+                <p class="enchantment"> {{ enchants|replace("_", " ") }} {{ enchantments[enchants] }}</p>
+            {% endfor %}
+        </div>
+
+        <form method="post">
+            <div id="back_parent">
+                <button type="sumbit" id="back">回到主頁</button>
+            </div>
+        </form>
+    </div>
+    <div class="spin">
+        <h1 id="spinning">抽物品中！</h1>
+        <img src="{{ url_for('static', filename='images/black_box.png') }}" id="box1">
+        <img src="{{ url_for('static', filename='images/black_box.png') }}" id="box2">
+        <img src="{{ url_for('static', filename='images/black_box.png') }}" id="box3">
+        <img src="{{ url_for('static', filename='images/black_box.png') }}" id="box4">
+    </div>
 </body> 
 </html>

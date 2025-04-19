@@ -10,6 +10,7 @@
 
     z-index: 100;
 }
+
 #box2 {
     background-color: #f8f7de;
     position: absolute;
@@ -69,20 +70,16 @@
     margin-top:15px;
 
     opacity: 1;
-    transition: 0.2s;
+    transition: 0.2s ease;
 }
   
 #logout:hover {
     background-color: #8691f5;
     opacity: 0.8;
+    scale: 1.1
 }
 
-#closed{
-    background-color: #64d8fe;
-    color:#3b3e36;
-
-    border: 0;
-
+.roll {
     margin: 0;
     position: absolute;
     top: 35%;
@@ -90,7 +87,14 @@
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
+}
 
+#closed{
+    background-color: #64d8fe;
+    color:#3b3e36;
+
+    border: 0;
+    margin: 0;
     height: 150px;
     width: 750px;
     font-size: 60px;
@@ -100,10 +104,11 @@
     min-width: 300px;
 
     opacity: 1;
-    transition: 0.2s;
+    transition: 0.2s ease;
 }
   
 #closed:hover {
-    background-color: #bafcff;
+    background-color: #85ced2;
     opacity: 0.8;
+    scale: 1.2;
 }

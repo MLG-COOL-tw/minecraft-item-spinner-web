@@ -20,10 +20,13 @@ API_ENDPOINT = 'https://discord.com/api/v10'
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     #login page
-    #post request for the button
+    
+    #reset session
     session["username"] = ""
     session["userid"] = ""
     session["useravatar"] = ""
+
+    #post request for the button
     if (request.method == 'POST'):
         return redirect(auth_url)
     else:
@@ -55,8 +58,13 @@ def main():
             return render_template("index.html", username = username, userid = userid, useravatar = useravatar)
         
     else:
-        #if there is no code then make them relogin
-        return redirect(url_for("login"))
+        #if there is session then use the session
+        if session["username"] != "":
+            return render_template("index.html", username=session["username"], userid=session["userid"], useravatar=session["useravatar"])
+        
+        #if there is no code and not session then make them relogin
+        else:
+            return redirect(url_for("login"))
 
 def exchange_code(code):
     # gets the access_token
@@ -89,7 +97,7 @@ def get_user_data(accessToken):
 @app.route("/roll", methods=['GET', 'POST'])
 def roll():
     if (request.method == 'POST'):
-        return redirect("main")
+        return redirect(url_for("main"))
     else:
         #all the items
         items = [["iron_sword", "diamond_sword", "netherite_sword"],
@@ -154,7 +162,7 @@ def roll():
             if value != 0:
                 enchant.append(key)
         
-        return render_template("roll.html", item=item, enchant=enchant, enchantments=enchantments)
+        return render_template("roll.html", pick_item=pick_item, pick_item_type=pick_item_type, item=item, enchant=enchant, enchantments=enchantments)
 
 
 @app.errorhandler(500)

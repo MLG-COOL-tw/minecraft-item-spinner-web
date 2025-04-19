@@ -2,7 +2,6 @@
 ## 使用的packages:
 * pip install flask
 * pip install python-dotenv
-* pip install react
 > (或是直接requirements.txt也可以)
 
 ## 如何開啟：
