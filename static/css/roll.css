@@ -134,25 +134,37 @@ body {
     animation: pickCard 1s infinite;
     animation-delay: 0.25s;
     scale: 0.8;
+   
+    transition: 0.2s ease;
 }
+#box1:hover{scale:1;}
   
 #box2 {
     animation: pickCard 1s infinite;
     animation-delay: 0.5s;
     scale: 0.8;
+
+    transition: 0.2s ease;
 }
+#box2:hover{scale:1;}
   
 #box3 {
     animation: pickCard 1s infinite;
     animation-delay: 0.75s;
     scale: 0.8;
+
+    transition: 0.2s ease;
 }
+#box3:hover{scale:1;}
   
 #box4 {
     animation: pickCard 1s infinite;
     animation-delay: 1s;
     scale: 0.8;
+
+    transition: 0.2s ease;
 }
+#box4:hover{scale:1;}
   
 @keyframes pickCard {
     0% {
