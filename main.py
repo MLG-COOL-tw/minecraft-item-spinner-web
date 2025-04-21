@@ -46,7 +46,7 @@ def main():
             elif request.form["btn"] == "roll":
                 return redirect(url_for("roll")) 
 
-        if request.args:
+        if request.args and not session.get("username"):
             #gets the code from the auth link
             #gets the username, id, avatar from discord api
             code = request.args.get('code')
